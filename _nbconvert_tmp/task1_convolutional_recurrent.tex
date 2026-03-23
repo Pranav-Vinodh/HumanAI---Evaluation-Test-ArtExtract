@@ -1,0 +1,1919 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{task1\_convolutional\_recurrent}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Task 1 -- Convolutional--recurrent classification
+(WikiArt)}\label{task-1-convolutionalrecurrent-classification-wikiart}
+
+\textbf{GSoC / HumanAI --- discussion notebook.} Here I implement
+\textbf{multi-task} prediction of \textbf{style}, \textbf{artist}, and
+\textbf{genre} on the ArtGAN \textbf{WikiArt Refined} setup: a
+\textbf{convolutional trunk} (ResNet-18) on \textbf{horizontal image
+strips}, aggregated by a \textbf{bidirectional GRU}, with \textbf{three
+linear heads}.
+
+I designed this to \textbf{train on resource-constrained hardware}
+(consumer GPU or CPU-class laptop): a \textbf{small pretrained CNN},
+\textbf{frozen backbone} by default, \textbf{subsampled data}
+(\texttt{MAX\_SAMPLES}), and \textbf{short training}
+(\texttt{EPOCHS\ =\ 5}). The sections below spell out \textbf{my
+strategy}, \textbf{why I chose these models under that constraint},
+\textbf{their strengths and weaknesses}, and \textbf{how I read the
+evaluation metrics} after I run training.
+
+\textbf{Data:} paths point to \texttt{DATA\_ROOT} / \texttt{CSV\_ROOT};
+large assets are gitignored.
+
+    \subsection{Data layout}\label{data-layout}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Images} live under \texttt{DATA\_ROOT} (WikiArt-style folders
+  via \texttt{filepath} in metadata).
+\item
+  \textbf{ArtGAN CSVs} under \texttt{CSV\_ROOT};
+  \textbf{\texttt{metadata.csv}} at \texttt{METADATA\_CSV} with
+  \texttt{filepath}, \texttt{style}, \texttt{artist}, \texttt{genre}
+  (and optional \texttt{split}).
+\end{itemize}
+
+The merged metadata can be \textbf{\textasciitilde16k+} rows. I default
+to \textbf{\texttt{MAX\_SAMPLES\ =\ 5000}} (\textasciitilde4k train /
+\textasciitilde1k val after stratified split) so \textbf{epoch time,
+RAM, and disk I/O} stay manageable on \textbf{one machine without a
+large GPU}. If I set \texttt{MAX\_SAMPLES\ =\ None} I use the full table
+when I have the compute---runs get \textbf{longer} and \textbf{memory}
+goes up.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Imports and configuration}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{os}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{pathlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Path}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{typing}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Dict}\PY{p}{,} \PY{n}{List}\PY{p}{,} \PY{n}{Tuple}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{torch}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{torch}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{nn}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{torch}\PY{n+nn}{.}\PY{n+nn}{utils}\PY{n+nn}{.}\PY{n+nn}{data}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Dataset}\PY{p}{,} \PY{n}{DataLoader}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{torchvision}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{models}\PY{p}{,} \PY{n}{transforms}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{PIL}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Image}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{LabelEncoder}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{classification\PYZus{}report}\PY{p}{,} \PY{n}{confusion\PYZus{}matrix}
+
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{seaborn}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sns}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{tqdm}\PY{n+nn}{.}\PY{n+nn}{auto}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{tqdm}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{set\PYZus{}seed}\PY{p}{(}\PY{n}{seed}\PY{p}{:} \PY{n+nb}{int} \PY{o}{=} \PY{l+m+mi}{42}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{k+kc}{None}\PY{p}{:}
+    \PY{n}{torch}\PY{o}{.}\PY{n}{manual\PYZus{}seed}\PY{p}{(}\PY{n}{seed}\PY{p}{)}
+    \PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{manual\PYZus{}seed\PYZus{}all}\PY{p}{(}\PY{n}{seed}\PY{p}{)}
+    \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{n}{seed}\PY{p}{)}
+
+
+\PY{n}{set\PYZus{}seed}\PY{p}{(}\PY{l+m+mi}{42}\PY{p}{)}
+
+\PY{n}{DATA\PYZus{}ROOT} \PY{o}{=} \PY{n}{Path}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/task1\PYZus{}data/wikiart}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{CSV\PYZus{}ROOT} \PY{o}{=} \PY{n}{Path}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/task1\PYZus{}data/wikiart\PYZus{}csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{METADATA\PYZus{}CSV} \PY{o}{=} \PY{n}{CSV\PYZus{}ROOT} \PY{o}{/} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{metadata.csv}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{n}{DEVICE} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{device}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cuda}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{is\PYZus{}available}\PY{p}{(}\PY{p}{)} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cpu}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Using device:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{DEVICE}\PY{p}{)}
+
+\PY{n}{IMG\PYZus{}SIZE} \PY{o}{=} \PY{l+m+mi}{224}
+\PY{n}{PATCH\PYZus{}SPLITS} \PY{o}{=} \PY{l+m+mi}{4}
+\PY{n}{BATCH\PYZus{}SIZE} \PY{o}{=} \PY{l+m+mi}{16}
+\PY{n}{NUM\PYZus{}WORKERS} \PY{o}{=} \PY{l+m+mi}{0}
+\PY{n}{EPOCHS} \PY{o}{=} \PY{l+m+mi}{5}
+\PY{n}{LEARNING\PYZus{}RATE} \PY{o}{=} \PY{l+m+mf}{1e\PYZhy{}4}
+
+\PY{n}{LABEL\PYZus{}COLS} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{style}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{artist}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{genre}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Using device: cuda
+    \end{Verbatim}
+
+    \subsection{Approach and overall strategy (GSoC
+discussion)}\label{approach-and-overall-strategy-gsoc-discussion}
+
+\textbf{How I frame the problem:} Paintings are
+\textbf{high-dimensional} and labels are \textbf{hierarchical /
+correlated} (artist ↔ style ↔ genre). I use \textbf{one shared visual
+representation} for \textbf{three classification tasks} so overhead
+stays modest compared with training three separate models.
+
+\textbf{My strategy:} 1. \textbf{Strip-based encoding:} I resize each
+image to \texttt{224×224}, split it into \textbf{4 horizontal bands},
+and run each band through the \textbf{same} ResNet-18 trunk. That gives
+me a \textbf{short sequence} of feature vectors per painting. 2.
+\textbf{Temporal pooling:} A \textbf{bidirectional GRU} reads that
+sequence; I take the \textbf{last hidden state} to summarize vertical
+structure (sky → ground, etc.) without a full 2D attention model. 3.
+\textbf{Multi-task heads:} Three linear classifiers predict style,
+artist, and genre from that summary.
+
+\textbf{Why resource limits drove my choices:} Training a \textbf{large
+ViT} or \textbf{unfrozen ResNet-50+} on full WikiArt would need
+\textbf{more VRAM, longer epochs, and stronger regularization} than I
+budgeted for. I \textbf{freeze ImageNet-pretrained ResNet-18} and only
+train \textbf{GRU + heads}, which \textbf{shrinks optimizer state and
+backward cost} a lot---appropriate for \textbf{my laptop /
+\textasciitilde6--8 GB GPU} and \textbf{quick iteration}. Strip + GRU is
+\textbf{lighter than a two-stage detector or transformer} while still
+satisfying the \textbf{convolutional + recurrent} requirement.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Dataset}
+
+\PY{k}{class}\PY{+w}{ }\PY{n+nc}{WikiArtSequenceDataset}\PY{p}{(}\PY{n}{Dataset}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Horizontal strips per image; backbone + RNN consume the sequence.\PYZdq{}\PYZdq{}\PYZdq{}}
+
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}
+        \PY{n+nb+bp}{self}\PY{p}{,}
+        \PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,}
+        \PY{n}{img\PYZus{}root}\PY{p}{:} \PY{n}{Path}\PY{p}{,}
+        \PY{n}{transform}\PY{p}{:} \PY{n}{transforms}\PY{o}{.}\PY{n}{Compose}\PY{p}{,}
+        \PY{n}{label\PYZus{}cols}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n+nb}{str}\PY{p}{]}\PY{p}{,}
+    \PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{k+kc}{None}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{img\PYZus{}root} \PY{o}{=} \PY{n}{Path}\PY{p}{(}\PY{n}{img\PYZus{}root}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{transform} \PY{o}{=} \PY{n}{transform}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{label\PYZus{}cols} \PY{o}{=} \PY{n}{label\PYZus{}cols}
+
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf+fm}{\PYZus{}\PYZus{}len\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{int}\PY{p}{:}
+        \PY{k}{return} \PY{n+nb}{len}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{df}\PY{p}{)}
+
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf+fm}{\PYZus{}\PYZus{}getitem\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{idx}\PY{p}{:} \PY{n+nb}{int}\PY{p}{)}\PY{p}{:}
+        \PY{n}{row} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{idx}\PY{p}{]}
+        \PY{n}{img\PYZus{}path} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{img\PYZus{}root} \PY{o}{/} \PY{n}{row}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{filepath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n}{image} \PY{o}{=} \PY{n}{Image}\PY{o}{.}\PY{n}{open}\PY{p}{(}\PY{n}{img\PYZus{}path}\PY{p}{)}\PY{o}{.}\PY{n}{convert}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RGB}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+        \PY{n}{image} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{image}\PY{p}{)}
+        \PY{n}{c}\PY{p}{,} \PY{n}{h}\PY{p}{,} \PY{n}{w} \PY{o}{=} \PY{n}{image}\PY{o}{.}\PY{n}{shape}
+        \PY{n}{strip\PYZus{}h} \PY{o}{=} \PY{n}{h} \PY{o}{/}\PY{o}{/} \PY{n}{PATCH\PYZus{}SPLITS}
+
+        \PY{n}{strips} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{PATCH\PYZus{}SPLITS}\PY{p}{)}\PY{p}{:}
+            \PY{n}{start} \PY{o}{=} \PY{n}{i} \PY{o}{*} \PY{n}{strip\PYZus{}h}
+            \PY{n}{end} \PY{o}{=} \PY{n}{h} \PY{k}{if} \PY{n}{i} \PY{o}{==} \PY{n}{PATCH\PYZus{}SPLITS} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1} \PY{k}{else} \PY{p}{(}\PY{n}{i} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{*} \PY{n}{strip\PYZus{}h}
+            \PY{n}{strips}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{image}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{,} \PY{p}{:}\PY{p}{]}\PY{p}{)}
+        \PY{n}{strips} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{stack}\PY{p}{(}\PY{n}{strips}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}  \PY{c+c1}{\PYZsh{} (T, C, H\PYZus{}strip, W)}
+
+        \PY{n}{labels} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{tensor}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{label\PYZus{}cols}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{int64}\PY{p}{)}\PY{p}{)}
+
+        \PY{k}{return} \PY{n}{strips}\PY{p}{,} \PY{n}{labels}
+
+
+\PY{c+c1}{\PYZsh{} Basic transforms; you can enrich augmentations if desired}
+\PY{n}{train\PYZus{}transform} \PY{o}{=} \PY{n}{transforms}\PY{o}{.}\PY{n}{Compose}\PY{p}{(}\PY{p}{[}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Resize}\PY{p}{(}\PY{p}{(}\PY{n}{IMG\PYZus{}SIZE}\PY{p}{,} \PY{n}{IMG\PYZus{}SIZE}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{RandomHorizontalFlip}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{ToTensor}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Normalize}\PY{p}{(}\PY{n}{mean}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{0.485}\PY{p}{,} \PY{l+m+mf}{0.456}\PY{p}{,} \PY{l+m+mf}{0.406}\PY{p}{]}\PY{p}{,} \PY{n}{std}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{0.229}\PY{p}{,} \PY{l+m+mf}{0.224}\PY{p}{,} \PY{l+m+mf}{0.225}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{val\PYZus{}transform} \PY{o}{=} \PY{n}{transforms}\PY{o}{.}\PY{n}{Compose}\PY{p}{(}\PY{p}{[}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Resize}\PY{p}{(}\PY{p}{(}\PY{n}{IMG\PYZus{}SIZE}\PY{p}{,} \PY{n}{IMG\PYZus{}SIZE}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{ToTensor}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Normalize}\PY{p}{(}\PY{n}{mean}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{0.485}\PY{p}{,} \PY{l+m+mf}{0.456}\PY{p}{,} \PY{l+m+mf}{0.406}\PY{p}{]}\PY{p}{,} \PY{n}{std}\PY{o}{=}\PY{p}{[}\PY{l+m+mf}{0.229}\PY{p}{,} \PY{l+m+mf}{0.224}\PY{p}{,} \PY{l+m+mf}{0.225}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Strip representation and recurrent module ---
+trade-offs}\label{strip-representation-and-recurrent-module-trade-offs}
+
+\textbf{Strengths I get from this design:} Four strips add a
+\textbf{minimal notion of spatial layout} (top vs bottom of the canvas)
+while \textbf{reusing one CNN} per strip---cheap compared with pyramids
+or sliding windows. The GRU \textbf{combines} strip features with
+\textbf{few parameters} at sequence length 4.
+
+\textbf{Weaknesses I accept:} \textbf{Horizontal} slicing under-models
+\textbf{left--right} structure, and resize loses \textbf{fine local
+detail}. \textbf{Artist} identity often depends on \textbf{brushwork and
+micro-texture} that 224px and strip pooling blur. \textbf{GRU vs LSTM}
+barely matters at \texttt{T=4}; either is mainly a \textbf{small
+trainable mixer} on frozen CNN features.
+
+\textbf{What I would try with more resources:} Higher resolution,
+\textbf{learned 2D pooling}, or \textbf{partial backbone unfreezing}
+first---not necessarily a deeper RNN.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Optional helper: build metadata.csv from official ArtGAN WikiArt CSVs}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{pathlib}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{Path}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{\PYZus{}load\PYZus{}task\PYZus{}df}\PY{p}{(}\PY{n}{csv\PYZus{}dir}\PY{p}{:} \PY{n}{Path}\PY{p}{,} \PY{n}{task\PYZus{}name}\PY{p}{:} \PY{n+nb}{str}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Load STYLE/ARTIST/GENRE CSVs and map class indices to label names.}
+
+\PY{l+s+sd}{    This version assumes a flat folder structure like:}
+\PY{l+s+sd}{      csv\PYZus{}dir/}
+\PY{l+s+sd}{        style\PYZus{}class.txt, style\PYZus{}train.csv, style\PYZus{}val.csv}
+\PY{l+s+sd}{        artist\PYZus{}class.txt, artist\PYZus{}train.csv, artist\PYZus{}val.csv}
+\PY{l+s+sd}{        genre\PYZus{}class.txt, genre\PYZus{}train.csv, genre\PYZus{}val.csv}
+
+\PY{l+s+sd}{    Each *\PYZus{}train/val.csv row contains: (path/to/image.jpg, class\PYZus{}index)}
+\PY{l+s+sd}{    and *\PYZus{}class.txt contains lines of the form: \PYZdq{}index label\PYZus{}name\PYZdq{}.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{task\PYZus{}lower} \PY{o}{=} \PY{n}{task\PYZus{}name}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}   \PY{c+c1}{\PYZsh{} e.g. \PYZdq{}style\PYZdq{}}
+
+    \PY{n}{class\PYZus{}file} \PY{o}{=} \PY{n}{csv\PYZus{}dir} \PY{o}{/} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{task\PYZus{}lower}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}class.txt}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{train\PYZus{}csv} \PY{o}{=} \PY{n}{csv\PYZus{}dir} \PY{o}{/} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{task\PYZus{}lower}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}train.csv}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{val\PYZus{}csv} \PY{o}{=} \PY{n}{csv\PYZus{}dir} \PY{o}{/} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{task\PYZus{}lower}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}val.csv}\PY{l+s+s2}{\PYZdq{}}
+
+    \PY{c+c1}{\PYZsh{} class\PYZus{}file: \PYZdq{}index label\PYZdq{} per line}
+    \PY{n}{classes} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{class\PYZus{}file}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{header}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{names}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{class\PYZus{}idx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{idx\PYZus{}to\PYZus{}label} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{n+nb}{zip}\PY{p}{(}\PY{n}{classes}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{class\PYZus{}idx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{classes}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf}{\PYZus{}load\PYZus{}split}\PY{p}{(}\PY{n}{csv\PYZus{}path}\PY{p}{:} \PY{n}{Path}\PY{p}{,} \PY{n}{split\PYZus{}name}\PY{p}{:} \PY{n+nb}{str}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+        \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{csv\PYZus{}path}\PY{p}{,} \PY{n}{header}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{names}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{filepath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{class\PYZus{}idx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{df}\PY{p}{[}\PY{n}{task\PYZus{}name}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{class\PYZus{}idx}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{n}{idx\PYZus{}to\PYZus{}label}\PY{p}{)}
+        \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{split}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{split\PYZus{}name}
+        \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{filepath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{task\PYZus{}name}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{split}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}
+
+    \PY{n}{train\PYZus{}df} \PY{o}{=} \PY{n}{\PYZus{}load\PYZus{}split}\PY{p}{(}\PY{n}{train\PYZus{}csv}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{val\PYZus{}df} \PY{o}{=} \PY{n}{\PYZus{}load\PYZus{}split}\PY{p}{(}\PY{n}{val\PYZus{}csv}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{val}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{train\PYZus{}df}\PY{p}{,} \PY{n}{val\PYZus{}df}\PY{p}{]}\PY{p}{,} \PY{n}{ignore\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{build\PYZus{}metadata\PYZus{}from\PYZus{}artgan\PYZus{}structure}\PY{p}{(}
+    \PY{n}{csv\PYZus{}dir}\PY{p}{:} \PY{n}{Path} \PY{o}{=} \PY{n}{CSV\PYZus{}ROOT}\PY{p}{,}
+    \PY{n}{output\PYZus{}csv}\PY{p}{:} \PY{n}{Path} \PY{o}{=} \PY{n}{METADATA\PYZus{}CSV}\PY{p}{,}
+\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Create a consolidated metadata.csv with filepath, style, artist, genre.}
+
+\PY{l+s+sd}{    \PYZhy{} Uses STYLE/ARTIST/GENRE CSVs provided with the refined WikiArt dataset}
+\PY{l+s+sd}{      stored under `csv\PYZus{}dir`.}
+\PY{l+s+sd}{    \PYZhy{} Merges on `filepath` and keeps only images that appear in all three tasks.}
+\PY{l+s+sd}{    \PYZhy{} Uses the split (train/val) from the style task for the final `split` column.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{style\PYZus{}df} \PY{o}{=} \PY{n}{\PYZus{}load\PYZus{}task\PYZus{}df}\PY{p}{(}\PY{n}{csv\PYZus{}dir}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{style}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{artist\PYZus{}df} \PY{o}{=} \PY{n}{\PYZus{}load\PYZus{}task\PYZus{}df}\PY{p}{(}\PY{n}{csv\PYZus{}dir}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{artist}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{genre\PYZus{}df} \PY{o}{=} \PY{n}{\PYZus{}load\PYZus{}task\PYZus{}df}\PY{p}{(}\PY{n}{csv\PYZus{}dir}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{genre}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{df} \PY{o}{=} \PY{n}{style\PYZus{}df}\PY{o}{.}\PY{n}{merge}\PY{p}{(}\PY{n}{artist\PYZus{}df}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{filepath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{artist}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{on}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{filepath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{how}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{inner}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{merge}\PY{p}{(}\PY{n}{genre\PYZus{}df}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{filepath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{genre}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{on}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{filepath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{how}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{inner}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{output\PYZus{}csv}\PY{o}{.}\PY{n}{parent}\PY{o}{.}\PY{n}{mkdir}\PY{p}{(}\PY{n}{parents}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{exist\PYZus{}ok}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{df}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{n}{output\PYZus{}csv}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Saved consolidated metadata with }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ rows to }\PY{l+s+si}{\PYZob{}}\PY{n}{output\PYZus{}csv}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{return} \PY{n}{df}
+
+
+\PY{c+c1}{\PYZsh{} Run this only once after downloading the CSVs into CSV\PYZus{}ROOT to create metadata.csv for subset of data:}
+\PY{c+c1}{\PYZsh{} consolidated\PYZus{}df = build\PYZus{}metadata\PYZus{}from\PYZus{}artgan\PYZus{}structure(CSV\PYZus{}ROOT, METADATA\PYZus{}CSV)}
+\PY{c+c1}{\PYZsh{} display(consolidated\PYZus{}df.head())}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Metadata loading and label encoding}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{load\PYZus{}metadata}\PY{p}{(}\PY{n}{metadata\PYZus{}csv}\PY{p}{:} \PY{n}{Path}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Load metadata and ensure required columns exist.}
+
+\PY{l+s+sd}{    Expected columns:}
+\PY{l+s+sd}{    \PYZhy{} filepath: path to image file relative to DATA\PYZus{}ROOT}
+\PY{l+s+sd}{    \PYZhy{} style, artist, genre: string labels}
+
+\PY{l+s+sd}{    You can adapt this function if your CSV uses different names.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{metadata\PYZus{}csv}\PY{p}{)}
+    \PY{n}{required} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{filepath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{style}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{artist}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{genre}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}
+    \PY{n}{missing} \PY{o}{=} \PY{n}{required}\PY{o}{.}\PY{n}{difference}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{)}
+    \PY{k}{if} \PY{n}{missing}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{ValueError}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Missing columns in metadata: }\PY{l+s+si}{\PYZob{}}\PY{n}{missing}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{return} \PY{n}{df}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{encode\PYZus{}labels}\PY{p}{(}\PY{n}{df}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{label\PYZus{}cols}\PY{p}{:} \PY{n}{List}\PY{p}{[}\PY{n+nb}{str}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{Tuple}\PY{p}{[}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{Dict}\PY{p}{[}\PY{n+nb}{str}\PY{p}{,} \PY{n}{LabelEncoder}\PY{p}{]}\PY{p}{]}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Encode string labels into integer IDs and return fitted encoders.\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{encoders}\PY{p}{:} \PY{n}{Dict}\PY{p}{[}\PY{n+nb}{str}\PY{p}{,} \PY{n}{LabelEncoder}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{label\PYZus{}cols}\PY{p}{:}
+        \PY{n}{enc} \PY{o}{=} \PY{n}{LabelEncoder}\PY{p}{(}\PY{p}{)}
+        \PY{n}{df}\PY{p}{[}\PY{n}{col} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}id}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{enc}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}\PY{p}{)}
+        \PY{n}{encoders}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{enc}
+    \PY{k}{return} \PY{n}{df}\PY{p}{,} \PY{n}{encoders}
+
+
+\PY{c+c1}{\PYZsh{} Load and prepare splits}
+\PY{n}{raw\PYZus{}df} \PY{o}{=} \PY{n}{load\PYZus{}metadata}\PY{p}{(}\PY{n}{METADATA\PYZus{}CSV}\PY{p}{)}
+\PY{n}{encoded\PYZus{}df}\PY{p}{,} \PY{n}{label\PYZus{}encoders} \PY{o}{=} \PY{n}{encode\PYZus{}labels}\PY{p}{(}\PY{n}{raw\PYZus{}df}\PY{p}{,} \PY{n}{LABEL\PYZus{}COLS}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Use style label for stratification as a reasonable compromise}
+\PY{n}{train\PYZus{}df}\PY{p}{,} \PY{n}{val\PYZus{}df} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}
+    \PY{n}{encoded\PYZus{}df}\PY{p}{,}
+    \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,}
+    \PY{n}{stratify}\PY{o}{=}\PY{n}{encoded\PYZus{}df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{style\PYZus{}id}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+    \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,}
+\PY{p}{)}
+
+\PY{n}{label\PYZus{}cols\PYZus{}id} \PY{o}{=} \PY{p}{[}\PY{n}{c} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}id}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{c} \PY{o+ow}{in} \PY{n}{LABEL\PYZus{}COLS}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Train samples:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}df}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Val samples:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{val\PYZus{}df}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train samples: 13000
+Val samples: 3250
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{MAX\PYZus{}SAMPLES} \PY{o}{=} \PY{l+m+mi}{5000}  \PY{c+c1}{\PYZsh{} None = use all merged rows}
+
+\PY{k}{if} \PY{n}{MAX\PYZus{}SAMPLES} \PY{o+ow}{is} \PY{o+ow}{not} \PY{k+kc}{None} \PY{o+ow}{and} \PY{n+nb}{len}\PY{p}{(}\PY{n}{encoded\PYZus{}df}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{n}{MAX\PYZus{}SAMPLES}\PY{p}{:}
+    \PY{n}{encoded\PYZus{}df\PYZus{}small} \PY{o}{=} \PY{p}{(}
+        \PY{n}{encoded\PYZus{}df}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{n}{n}\PY{o}{=}\PY{n}{MAX\PYZus{}SAMPLES}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+        \PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sub\PYZhy{}sampled to }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{encoded\PYZus{}df\PYZus{}small}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ images for faster experimentation.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n}{encoded\PYZus{}df\PYZus{}small} \PY{o}{=} \PY{n}{encoded\PYZus{}df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Using full dataset with }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{encoded\PYZus{}df\PYZus{}small}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ images.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{train\PYZus{}df}\PY{p}{,} \PY{n}{val\PYZus{}df} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}
+    \PY{n}{encoded\PYZus{}df\PYZus{}small}\PY{p}{,}
+    \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,}
+    \PY{n}{stratify}\PY{o}{=}\PY{n}{encoded\PYZus{}df\PYZus{}small}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{style\PYZus{}id}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+    \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,}
+\PY{p}{)}
+
+\PY{n}{label\PYZus{}cols\PYZus{}id} \PY{o}{=} \PY{p}{[}\PY{n}{c} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}id}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{c} \PY{o+ow}{in} \PY{n}{LABEL\PYZus{}COLS}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Train samples (after sub\PYZhy{}sampling):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}df}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Val samples (after sub\PYZhy{}sampling):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{val\PYZus{}df}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Sub-sampled to 5000 images for faster experimentation.
+Train samples (after sub-sampling): 4000
+Val samples (after sub-sampling): 1000
+    \end{Verbatim}
+
+    \subsection{\texorpdfstring{Subsampling (\texttt{MAX\_SAMPLES}) --- why
+it matters for
+metrics}{Subsampling (MAX\_SAMPLES) --- why it matters for metrics}}\label{subsampling-max_samples-why-it-matters-for-metrics}
+
+\textbf{Why I cap samples:} Random \textbf{5k-row subsampling} keeps
+\textbf{epoch time predictable} and stops \textbf{memory thrash} when
+images load from disk inside the notebook. It is an explicit
+\textbf{compute--variance trade-off} I document.
+
+\textbf{Effect on evaluation:} Rare \textbf{artists} and \textbf{styles}
+get \textbf{fewer training examples} after sampling, which usually
+\textbf{hurts macro-averaged F1} and \textbf{artist accuracy} more than
+genre. \textbf{Weighted} metrics (in \texttt{classification\_report})
+stay closer to ``headline'' accuracy on \textbf{frequent} classes.
+
+\textbf{What I state in my submission:} My scores are measured under
+\textbf{these resource limits}; \textbf{raising \texttt{MAX\_SAMPLES}},
+\textbf{epochs}, or \textbf{unfreezing the backbone} is the expected
+path to higher numbers---not a separate algorithmic trick.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Dataloaders}
+
+\PY{n}{train\PYZus{}dataset} \PY{o}{=} \PY{n}{WikiArtSequenceDataset}\PY{p}{(}
+    \PY{n}{df}\PY{o}{=}\PY{n}{train\PYZus{}df}\PY{p}{,}
+    \PY{n}{img\PYZus{}root}\PY{o}{=}\PY{n}{DATA\PYZus{}ROOT}\PY{p}{,}
+    \PY{n}{transform}\PY{o}{=}\PY{n}{train\PYZus{}transform}\PY{p}{,}
+    \PY{n}{label\PYZus{}cols}\PY{o}{=}\PY{n}{label\PYZus{}cols\PYZus{}id}\PY{p}{,}
+\PY{p}{)}
+
+\PY{n}{val\PYZus{}dataset} \PY{o}{=} \PY{n}{WikiArtSequenceDataset}\PY{p}{(}
+    \PY{n}{df}\PY{o}{=}\PY{n}{val\PYZus{}df}\PY{p}{,}
+    \PY{n}{img\PYZus{}root}\PY{o}{=}\PY{n}{DATA\PYZus{}ROOT}\PY{p}{,}
+    \PY{n}{transform}\PY{o}{=}\PY{n}{val\PYZus{}transform}\PY{p}{,}
+    \PY{n}{label\PYZus{}cols}\PY{o}{=}\PY{n}{label\PYZus{}cols\PYZus{}id}\PY{p}{,}
+\PY{p}{)}
+
+\PY{n}{train\PYZus{}loader} \PY{o}{=} \PY{n}{DataLoader}\PY{p}{(}
+    \PY{n}{train\PYZus{}dataset}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{n}{BATCH\PYZus{}SIZE}\PY{p}{,}
+    \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{num\PYZus{}workers}\PY{o}{=}\PY{n}{NUM\PYZus{}WORKERS}\PY{p}{,}
+    \PY{n}{pin\PYZus{}memory}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}
+\PY{p}{)}
+
+\PY{n}{val\PYZus{}loader} \PY{o}{=} \PY{n}{DataLoader}\PY{p}{(}
+    \PY{n}{val\PYZus{}dataset}\PY{p}{,}
+    \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{n}{BATCH\PYZus{}SIZE}\PY{p}{,}
+    \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}
+    \PY{n}{num\PYZus{}workers}\PY{o}{=}\PY{n}{NUM\PYZus{}WORKERS}\PY{p}{,}
+    \PY{n}{pin\PYZus{}memory}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Dataloaders, stratification, and laptop-friendly
+I/O}\label{dataloaders-stratification-and-laptop-friendly-io}
+
+\textbf{Stratified split on \texttt{style\_id}:} I mirror \textbf{style}
+proportions between train and val so \textbf{style metrics} are less
+biased by a skewed held-out set.
+
+\textbf{\texttt{NUM\_WORKERS\ =\ 0} and \texttt{pin\_memory=False}:} I
+set this to reduce \textbf{multiprocessing pain} in Jupyter on
+Windows/macOS/Linux laptops and to \textbf{skip pinning} when CUDA is
+absent or tight. On a \textbf{dedicated CUDA server} I would raise
+\texttt{NUM\_WORKERS} and set \texttt{pin\_memory=True} for faster
+loading.
+
+\textbf{Batch size 16:} My compromise for \textbf{GPU memory}; I would
+lower it if I OOM and raise it if I have headroom.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Model}
+
+\PY{k}{class}\PY{+w}{ }\PY{n+nc}{ConvBackbone}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{train\PYZus{}backbone}\PY{p}{:} \PY{n+nb}{bool} \PY{o}{=} \PY{k+kc}{False}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{k+kc}{None}\PY{p}{:}
+        \PY{n+nb}{super}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n}{backbone} \PY{o}{=} \PY{n}{models}\PY{o}{.}\PY{n}{resnet18}\PY{p}{(}\PY{n}{weights}\PY{o}{=}\PY{n}{models}\PY{o}{.}\PY{n}{ResNet18\PYZus{}Weights}\PY{o}{.}\PY{n}{IMAGENET1K\PYZus{}V1}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{features} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{o}{*}\PY{n+nb}{list}\PY{p}{(}\PY{n}{backbone}\PY{o}{.}\PY{n}{children}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{out\PYZus{}dim} \PY{o}{=} \PY{n}{backbone}\PY{o}{.}\PY{n}{fc}\PY{o}{.}\PY{n}{in\PYZus{}features}
+
+        \PY{k}{if} \PY{o+ow}{not} \PY{n}{train\PYZus{}backbone}\PY{p}{:}
+            \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{features}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                \PY{n}{p}\PY{o}{.}\PY{n}{requires\PYZus{}grad} \PY{o}{=} \PY{k+kc}{False}
+
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{:} \PY{n}{torch}\PY{o}{.}\PY{n}{Tensor}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{torch}\PY{o}{.}\PY{n}{Tensor}\PY{p}{:}
+        \PY{n}{feats} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{features}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{feats} \PY{o}{=} \PY{n}{feats}\PY{o}{.}\PY{n}{view}\PY{p}{(}\PY{n}{feats}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{return} \PY{n}{feats}
+
+
+\PY{k}{class}\PY{+w}{ }\PY{n+nc}{ConvRNNMultiTaskModel}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Strip CNN features \PYZhy{}\PYZgt{} GRU \PYZhy{}\PYZgt{} three classifiers.\PYZdq{}\PYZdq{}\PYZdq{}}
+
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}
+        \PY{n+nb+bp}{self}\PY{p}{,}
+        \PY{n}{backbone}\PY{p}{:} \PY{n}{ConvBackbone}\PY{p}{,}
+        \PY{n}{hidden\PYZus{}size}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,}
+        \PY{n}{num\PYZus{}layers}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,}
+        \PY{n}{num\PYZus{}classes\PYZus{}style}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,}
+        \PY{n}{num\PYZus{}classes\PYZus{}artist}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,}
+        \PY{n}{num\PYZus{}classes\PYZus{}genre}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,}
+    \PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{k+kc}{None}\PY{p}{:}
+        \PY{n+nb}{super}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{backbone} \PY{o}{=} \PY{n}{backbone}
+
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{rnn} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{GRU}\PY{p}{(}
+            \PY{n}{input\PYZus{}size}\PY{o}{=}\PY{n}{backbone}\PY{o}{.}\PY{n}{out\PYZus{}dim}\PY{p}{,}
+            \PY{n}{hidden\PYZus{}size}\PY{o}{=}\PY{n}{hidden\PYZus{}size}\PY{p}{,}
+            \PY{n}{num\PYZus{}layers}\PY{o}{=}\PY{n}{num\PYZus{}layers}\PY{p}{,}
+            \PY{n}{batch\PYZus{}first}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+            \PY{n}{bidirectional}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+        \PY{p}{)}
+
+        \PY{n}{rnn\PYZus{}out\PYZus{}dim} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{hidden\PYZus{}size}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{head\PYZus{}style} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{rnn\PYZus{}out\PYZus{}dim}\PY{p}{,} \PY{n}{num\PYZus{}classes\PYZus{}style}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{head\PYZus{}artist} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{rnn\PYZus{}out\PYZus{}dim}\PY{p}{,} \PY{n}{num\PYZus{}classes\PYZus{}artist}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{head\PYZus{}genre} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{rnn\PYZus{}out\PYZus{}dim}\PY{p}{,} \PY{n}{num\PYZus{}classes\PYZus{}genre}\PY{p}{)}
+
+    \PY{k}{def}\PY{+w}{ }\PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x\PYZus{}seq}\PY{p}{:} \PY{n}{torch}\PY{o}{.}\PY{n}{Tensor}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} x\PYZus{}seq: (B, T, C, H, W)}
+        \PY{n}{b}\PY{p}{,} \PY{n}{t}\PY{p}{,} \PY{n}{c}\PY{p}{,} \PY{n}{h}\PY{p}{,} \PY{n}{w} \PY{o}{=} \PY{n}{x\PYZus{}seq}\PY{o}{.}\PY{n}{shape}
+        \PY{n}{x\PYZus{}flat} \PY{o}{=} \PY{n}{x\PYZus{}seq}\PY{o}{.}\PY{n}{view}\PY{p}{(}\PY{n}{b} \PY{o}{*} \PY{n}{t}\PY{p}{,} \PY{n}{c}\PY{p}{,} \PY{n}{h}\PY{p}{,} \PY{n}{w}\PY{p}{)}
+        \PY{n}{feats} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{backbone}\PY{p}{(}\PY{n}{x\PYZus{}flat}\PY{p}{)}  \PY{c+c1}{\PYZsh{} (B*T, D)}
+        \PY{n}{feats} \PY{o}{=} \PY{n}{feats}\PY{o}{.}\PY{n}{view}\PY{p}{(}\PY{n}{b}\PY{p}{,} \PY{n}{t}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}   \PY{c+c1}{\PYZsh{} (B, T, D)}
+
+        \PY{n}{rnn\PYZus{}out}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{rnn}\PY{p}{(}\PY{n}{feats}\PY{p}{)}   \PY{c+c1}{\PYZsh{} (B, T, 2H)}
+        \PY{n}{last} \PY{o}{=} \PY{n}{rnn\PYZus{}out}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{p}{:}\PY{p}{]}       \PY{c+c1}{\PYZsh{} (B, 2H)}
+
+        \PY{n}{logits\PYZus{}style} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{head\PYZus{}style}\PY{p}{(}\PY{n}{last}\PY{p}{)}
+        \PY{n}{logits\PYZus{}artist} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{head\PYZus{}artist}\PY{p}{(}\PY{n}{last}\PY{p}{)}
+        \PY{n}{logits\PYZus{}genre} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{head\PYZus{}genre}\PY{p}{(}\PY{n}{last}\PY{p}{)}
+
+        \PY{k}{return} \PY{n}{logits\PYZus{}style}\PY{p}{,} \PY{n}{logits\PYZus{}artist}\PY{p}{,} \PY{n}{logits\PYZus{}genre}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Model choice: ResNet-18 + GRU --- strengths and
+weaknesses}\label{model-choice-resnet-18-gru-strengths-and-weaknesses}
+
+\textbf{ResNet-18 (ImageNet, frozen):} - \textbf{Strengths:}
+\textbf{Small} (\textasciitilde11M params in the full model; I only
+train GRU+heads), \textbf{mature} pretrained features, \textbf{fast}
+forward pass, \textbf{stable} optimization. - \textbf{Weaknesses:}
+Features are \textbf{not art-specific}; a \textbf{frozen} trunk cannot
+fix \textbf{domain shift} (paintings vs natural images).
+\textbf{Capacity} may be too small for \textbf{hundreds of artist
+identities}.
+
+\textbf{Bidirectional GRU (hidden 256, 1 layer):} - \textbf{Strengths:}
+\textbf{Low parameter count}; enough to \textbf{fuse} four strip
+embeddings. - \textbf{Weaknesses:} \textbf{Limited expressivity} vs
+cross-attention or learned per-strip weighting; \textbf{last-step}
+readout may drop useful mid-sequence cues.
+
+\textbf{Why I did not default to a Transformer:} At my \textbf{data and
+compute budget}, ViT-style models raise \textbf{memory} and
+\textbf{tuning surface}; I met the brief with \textbf{CNN + RNN} and
+stay \textbf{honest about hardware limits}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Model, losses, optimizer}
+
+\PY{n}{num\PYZus{}styles} \PY{o}{=} \PY{n}{encoded\PYZus{}df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{style\PYZus{}id}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}
+\PY{n}{num\PYZus{}artists} \PY{o}{=} \PY{n}{encoded\PYZus{}df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{artist\PYZus{}id}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}
+\PY{n}{num\PYZus{}genres} \PY{o}{=} \PY{n}{encoded\PYZus{}df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{genre\PYZus{}id}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{backbone} \PY{o}{=} \PY{n}{ConvBackbone}\PY{p}{(}\PY{n}{train\PYZus{}backbone}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{model} \PY{o}{=} \PY{n}{ConvRNNMultiTaskModel}\PY{p}{(}
+    \PY{n}{backbone}\PY{o}{=}\PY{n}{backbone}\PY{p}{,}
+    \PY{n}{hidden\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{256}\PY{p}{,}
+    \PY{n}{num\PYZus{}layers}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+    \PY{n}{num\PYZus{}classes\PYZus{}style}\PY{o}{=}\PY{n}{num\PYZus{}styles}\PY{p}{,}
+    \PY{n}{num\PYZus{}classes\PYZus{}artist}\PY{o}{=}\PY{n}{num\PYZus{}artists}\PY{p}{,}
+    \PY{n}{num\PYZus{}classes\PYZus{}genre}\PY{o}{=}\PY{n}{num\PYZus{}genres}\PY{p}{,}
+\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{DEVICE}\PY{p}{)}
+
+\PY{n}{criterion\PYZus{}style} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{p}{)}
+\PY{n}{criterion\PYZus{}artist} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{p}{)}
+\PY{n}{criterion\PYZus{}genre} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{optimizer} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{optim}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n+nb}{filter}\PY{p}{(}\PY{k}{lambda} \PY{n}{p}\PY{p}{:} \PY{n}{p}\PY{o}{.}\PY{n}{requires\PYZus{}grad}\PY{p}{,} \PY{n}{model}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{n}{LEARNING\PYZus{}RATE}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Loss, optimization, and multi-task
+balance}\label{loss-optimization-and-multi-task-balance}
+
+I sum \textbf{three cross-entropies} (style, artist, genre) with
+\textbf{equal weight}---a \textbf{simple multi-task baseline} that does
+\textbf{not} reweight hard tasks (artist) vs easy ones (genre).
+\textbf{What I usually see:} genre is \textbf{easiest}, artist
+\textbf{hardest}---if artist loss dominates numerically, \textbf{task
+weights} or \textbf{sampling} would be my next experiment.
+
+\textbf{Adam at \texttt{1e-4}} on \textbf{trainable parameters only}
+(backbone frozen). \textbf{Unfreezing last ResNet stages} is my natural
+\textbf{next step} when GPU memory allows so textures can adapt to
+\textbf{paintings}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Train / eval}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{train\PYZus{}one\PYZus{}epoch}\PY{p}{(}
+    \PY{n}{model}\PY{p}{:} \PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{,}
+    \PY{n}{loader}\PY{p}{:} \PY{n}{DataLoader}\PY{p}{,}
+    \PY{n}{optimizer}\PY{p}{:} \PY{n}{torch}\PY{o}{.}\PY{n}{optim}\PY{o}{.}\PY{n}{Optimizer}\PY{p}{,}
+    \PY{n}{criterion\PYZus{}style}\PY{p}{:} \PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{,}
+    \PY{n}{criterion\PYZus{}artist}\PY{p}{:} \PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{,}
+    \PY{n}{criterion\PYZus{}genre}\PY{p}{:} \PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{,}
+\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n+nb}{float}\PY{p}{:}
+    \PY{n}{model}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{p}{)}
+    \PY{n}{total\PYZus{}loss} \PY{o}{=} \PY{l+m+mf}{0.0}
+
+    \PY{k}{for} \PY{n}{x\PYZus{}seq}\PY{p}{,} \PY{n}{y} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{loader}\PY{p}{,} \PY{n}{desc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Train}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{leave}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+        \PY{n}{x\PYZus{}seq} \PY{o}{=} \PY{n}{x\PYZus{}seq}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{DEVICE}\PY{p}{)}
+        \PY{n}{y} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{DEVICE}\PY{p}{)}
+        \PY{n}{y\PYZus{}style}\PY{p}{,} \PY{n}{y\PYZus{}artist}\PY{p}{,} \PY{n}{y\PYZus{}genre} \PY{o}{=} \PY{n}{y}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}
+
+        \PY{n}{optimizer}\PY{o}{.}\PY{n}{zero\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+        \PY{n}{logits\PYZus{}style}\PY{p}{,} \PY{n}{logits\PYZus{}artist}\PY{p}{,} \PY{n}{logits\PYZus{}genre} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{x\PYZus{}seq}\PY{p}{)}
+
+        \PY{n}{loss\PYZus{}style} \PY{o}{=} \PY{n}{criterion\PYZus{}style}\PY{p}{(}\PY{n}{logits\PYZus{}style}\PY{p}{,} \PY{n}{y\PYZus{}style}\PY{p}{)}
+        \PY{n}{loss\PYZus{}artist} \PY{o}{=} \PY{n}{criterion\PYZus{}artist}\PY{p}{(}\PY{n}{logits\PYZus{}artist}\PY{p}{,} \PY{n}{y\PYZus{}artist}\PY{p}{)}
+        \PY{n}{loss\PYZus{}genre} \PY{o}{=} \PY{n}{criterion\PYZus{}genre}\PY{p}{(}\PY{n}{logits\PYZus{}genre}\PY{p}{,} \PY{n}{y\PYZus{}genre}\PY{p}{)}
+
+        \PY{n}{loss} \PY{o}{=} \PY{n}{loss\PYZus{}style} \PY{o}{+} \PY{n}{loss\PYZus{}artist} \PY{o}{+} \PY{n}{loss\PYZus{}genre}
+        \PY{n}{loss}\PY{o}{.}\PY{n}{backward}\PY{p}{(}\PY{p}{)}
+        \PY{n}{optimizer}\PY{o}{.}\PY{n}{step}\PY{p}{(}\PY{p}{)}
+
+        \PY{n}{total\PYZus{}loss} \PY{o}{+}\PY{o}{=} \PY{n}{loss}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{n}{x\PYZus{}seq}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{total\PYZus{}loss} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{loader}\PY{o}{.}\PY{n}{dataset}\PY{p}{)}
+
+
+\PY{n+nd}{@torch}\PY{o}{.}\PY{n}{no\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{evaluate}\PY{p}{(}
+    \PY{n}{model}\PY{p}{:} \PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{,}
+    \PY{n}{loader}\PY{p}{:} \PY{n}{DataLoader}\PY{p}{,}
+\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{Dict}\PY{p}{[}\PY{n+nb}{str}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{]}\PY{p}{:}
+    \PY{n}{model}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{all\PYZus{}y} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{all\PYZus{}pred\PYZus{}style}\PY{p}{,} \PY{n}{all\PYZus{}pred\PYZus{}artist}\PY{p}{,} \PY{n}{all\PYZus{}pred\PYZus{}genre} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{x\PYZus{}seq}\PY{p}{,} \PY{n}{y} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{loader}\PY{p}{,} \PY{n}{desc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Eval}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{leave}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+        \PY{n}{x\PYZus{}seq} \PY{o}{=} \PY{n}{x\PYZus{}seq}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{DEVICE}\PY{p}{)}
+        \PY{n}{y} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{DEVICE}\PY{p}{)}
+
+        \PY{n}{logits\PYZus{}style}\PY{p}{,} \PY{n}{logits\PYZus{}artist}\PY{p}{,} \PY{n}{logits\PYZus{}genre} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{x\PYZus{}seq}\PY{p}{)}
+        \PY{n}{pred\PYZus{}style} \PY{o}{=} \PY{n}{logits\PYZus{}style}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}
+        \PY{n}{pred\PYZus{}artist} \PY{o}{=} \PY{n}{logits\PYZus{}artist}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}
+        \PY{n}{pred\PYZus{}genre} \PY{o}{=} \PY{n}{logits\PYZus{}genre}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}
+
+        \PY{n}{all\PYZus{}pred\PYZus{}style}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{pred\PYZus{}style}\PY{p}{)}
+        \PY{n}{all\PYZus{}pred\PYZus{}artist}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{pred\PYZus{}artist}\PY{p}{)}
+        \PY{n}{all\PYZus{}pred\PYZus{}genre}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{pred\PYZus{}genre}\PY{p}{)}
+        \PY{n}{all\PYZus{}y}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+    \PY{n}{all\PYZus{}y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{n}{all\PYZus{}y}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{all\PYZus{}pred\PYZus{}style} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{n}{all\PYZus{}pred\PYZus{}style}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{all\PYZus{}pred\PYZus{}artist} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{n}{all\PYZus{}pred\PYZus{}artist}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{all\PYZus{}pred\PYZus{}genre} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{n}{all\PYZus{}pred\PYZus{}genre}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+
+    \PY{n}{y\PYZus{}style}\PY{p}{,} \PY{n}{y\PYZus{}artist}\PY{p}{,} \PY{n}{y\PYZus{}genre} \PY{o}{=} \PY{n}{all\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{all\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{all\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Style classification report:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{y\PYZus{}style}\PY{p}{,} \PY{n}{all\PYZus{}pred\PYZus{}style}\PY{p}{,} \PY{n}{zero\PYZus{}division}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Artist classification report:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{y\PYZus{}artist}\PY{p}{,} \PY{n}{all\PYZus{}pred\PYZus{}artist}\PY{p}{,} \PY{n}{zero\PYZus{}division}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Genre classification report:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{y\PYZus{}genre}\PY{p}{,} \PY{n}{all\PYZus{}pred\PYZus{}genre}\PY{p}{,} \PY{n}{zero\PYZus{}division}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+
+    \PY{k}{return} \PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{all\PYZus{}y}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred\PYZus{}style}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{all\PYZus{}pred\PYZus{}style}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred\PYZus{}artist}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{all\PYZus{}pred\PYZus{}artist}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred\PYZus{}genre}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{all\PYZus{}pred\PYZus{}genre}\PY{p}{,}
+    \PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Training protocol and what to expect each
+epoch}\label{training-protocol-and-what-to-expect-each-epoch}
+
+Each epoch I run a \textbf{full training pass} then \textbf{validation}
+with \textbf{\texttt{classification\_report}} per task. I use those
+reports for \textbf{per-class precision/recall/F1}, not only accuracy.
+
+\textbf{Under my resource limits:} \textbf{\texttt{EPOCHS\ =\ 5}} is
+\textbf{short}; loss may still be \textbf{dropping} when I stop. In my
+write-up I note that \textbf{longer training} or \textbf{early stopping
+on val loss} would be standard if I had more time.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{history} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train\PYZus{}loss}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{p}{]}\PY{p}{\PYZcb{}}
+
+\PY{k}{for} \PY{n}{epoch} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{EPOCHS} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Epoch }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{/}\PY{l+s+si}{\PYZob{}}\PY{n}{EPOCHS}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{train\PYZus{}loss} \PY{o}{=} \PY{n}{train\PYZus{}one\PYZus{}epoch}\PY{p}{(}
+        \PY{n}{model}\PY{p}{,}
+        \PY{n}{train\PYZus{}loader}\PY{p}{,}
+        \PY{n}{optimizer}\PY{p}{,}
+        \PY{n}{criterion\PYZus{}style}\PY{p}{,}
+        \PY{n}{criterion\PYZus{}artist}\PY{p}{,}
+        \PY{n}{criterion\PYZus{}genre}\PY{p}{,}
+    \PY{p}{)}
+    \PY{n}{history}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train\PYZus{}loss}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{train\PYZus{}loss}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Train loss: }\PY{l+s+si}{\PYZob{}}\PY{n}{train\PYZus{}loss}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{val\PYZus{}loader}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 1/5
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train:   0\%|          | 0/250 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train loss: 6.5497
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Eval:   0\%|          | 0/63 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Style classification report:
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         1
+           1       0.00      0.00      0.00         3
+           2       0.00      0.00      0.00        39
+           3       0.00      0.00      0.00        40
+           4       0.00      0.00      0.00        23
+           5       0.00      0.00      0.00        38
+           6       0.00      0.00      0.00         1
+           7       0.57      0.86      0.69       315
+           8       0.00      0.00      0.00        42
+           9       0.00      0.00      0.00        41
+          10       0.00      0.00      0.00         3
+          11       0.00      0.00      0.00       103
+          12       0.29      0.71      0.41       207
+          13       1.00      0.06      0.11        68
+          14       0.81      0.18      0.29        73
+          15       0.00      0.00      0.00         3
+
+    accuracy                           0.43      1000
+   macro avg       0.17      0.11      0.09      1000
+weighted avg       0.37      0.43      0.33      1000
+
+Artist classification report:
+              precision    recall  f1-score   support
+
+           0       0.50      0.02      0.05        41
+           1       0.00      0.00      0.00        25
+           2       0.26      0.16      0.20        50
+           3       0.00      0.00      0.00        36
+           4       0.27      0.67      0.39        70
+           5       0.00      0.00      0.00        43
+           6       0.00      0.00      0.00        34
+           7       0.70      0.76      0.73        42
+           8       0.00      0.00      0.00        30
+           9       0.00      0.00      0.00        22
+          10       0.00      0.00      0.00        43
+          11       0.36      0.17      0.24        46
+          12       0.40      0.05      0.09        41
+          13       0.00      0.00      0.00        31
+          14       0.35      0.68      0.46        75
+          15       0.50      0.13      0.21        38
+          16       0.00      0.00      0.00        28
+          17       0.30      0.88      0.45        73
+          18       0.50      0.02      0.04        43
+          19       0.00      0.00      0.00        18
+          20       0.67      0.10      0.17        40
+          21       0.00      0.00      0.00        23
+          22       0.22      0.68      0.33       108
+
+    accuracy                           0.30      1000
+   macro avg       0.22      0.19      0.15      1000
+weighted avg       0.25      0.30      0.20      1000
+
+Genre classification report:
+              precision    recall  f1-score   support
+
+           1       1.00      0.06      0.11        85
+           2       0.44      0.14      0.21       173
+           3       1.00      0.03      0.05        38
+           4       0.55      0.90      0.69       281
+           5       0.00      0.00      0.00        29
+           6       0.47      0.87      0.61       187
+           7       0.47      0.10      0.17        69
+           8       0.41      0.48      0.44       103
+           9       0.00      0.00      0.00        35
+
+    accuracy                           0.50      1000
+   macro avg       0.48      0.29      0.25      1000
+weighted avg       0.52      0.50      0.41      1000
+
+Epoch 2/5
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train:   0\%|          | 0/250 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train loss: 5.1971
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Eval:   0\%|          | 0/63 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Style classification report:
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         1
+           1       0.00      0.00      0.00         3
+           2       0.25      0.03      0.05        39
+           3       0.47      0.20      0.28        40
+           4       1.00      0.13      0.23        23
+           5       0.00      0.00      0.00        38
+           6       0.00      0.00      0.00         1
+           7       0.52      0.95      0.67       315
+           8       0.62      0.12      0.20        42
+           9       0.62      0.20      0.30        41
+          10       0.00      0.00      0.00         3
+          11       0.29      0.08      0.12       103
+          12       0.43      0.48      0.46       207
+          13       0.63      0.56      0.59        68
+          14       0.64      0.59      0.61        73
+          15       0.00      0.00      0.00         3
+
+    accuracy                           0.51      1000
+   macro avg       0.34      0.21      0.22      1000
+weighted avg       0.48      0.51      0.44      1000
+
+Artist classification report:
+              precision    recall  f1-score   support
+
+           0       0.67      0.24      0.36        41
+           1       0.00      0.00      0.00        25
+           2       0.38      0.48      0.42        50
+           3       0.75      0.08      0.15        36
+           4       0.28      0.81      0.41        70
+           5       0.00      0.00      0.00        43
+           6       1.00      0.12      0.21        34
+           7       0.61      0.90      0.73        42
+           8       0.00      0.00      0.00        30
+           9       1.00      0.14      0.24        22
+          10       1.00      0.07      0.13        43
+          11       0.37      0.50      0.43        46
+          12       0.75      0.15      0.24        41
+          13       0.00      0.00      0.00        31
+          14       0.63      0.69      0.66        75
+          15       0.41      0.39      0.40        38
+          16       0.00      0.00      0.00        28
+          17       0.40      0.89      0.55        73
+          18       0.36      0.09      0.15        43
+          19       0.00      0.00      0.00        18
+          20       0.50      0.07      0.13        40
+          21       0.00      0.00      0.00        23
+          22       0.27      0.65      0.38       108
+
+    accuracy                           0.38      1000
+   macro avg       0.41      0.27      0.24      1000
+weighted avg       0.42      0.38      0.31      1000
+
+Genre classification report:
+              precision    recall  f1-score   support
+
+           1       0.73      0.22      0.34        85
+           2       0.41      0.16      0.23       173
+           3       0.70      0.55      0.62        38
+           4       0.61      0.95      0.74       281
+           5       0.00      0.00      0.00        29
+           6       0.59      0.82      0.69       187
+           7       0.41      0.13      0.20        69
+           8       0.43      0.64      0.51       103
+           9       1.00      0.06      0.11        35
+
+    accuracy                           0.56      1000
+   macro avg       0.54      0.39      0.38      1000
+weighted avg       0.55      0.56      0.50      1000
+
+Epoch 3/5
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train:   0\%|          | 0/250 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train loss: 4.4900
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Eval:   0\%|          | 0/63 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Style classification report:
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         1
+           1       0.00      0.00      0.00         3
+           2       0.42      0.13      0.20        39
+           3       0.75      0.30      0.43        40
+           4       0.35      0.26      0.30        23
+           5       0.00      0.00      0.00        38
+           6       0.00      0.00      0.00         1
+           7       0.70      0.83      0.76       315
+           8       0.68      0.36      0.47        42
+           9       0.60      0.29      0.39        41
+          10       0.00      0.00      0.00         3
+          11       0.33      0.19      0.25       103
+          12       0.43      0.76      0.55       207
+          13       0.85      0.59      0.70        68
+          14       0.76      0.64      0.70        73
+          15       0.00      0.00      0.00         3
+
+    accuracy                           0.58      1000
+   macro avg       0.37      0.27      0.30      1000
+weighted avg       0.56      0.58      0.54      1000
+
+Artist classification report:
+              precision    recall  f1-score   support
+
+           0       0.64      0.51      0.57        41
+           1       0.14      0.04      0.06        25
+           2       0.43      0.38      0.40        50
+           3       0.50      0.06      0.10        36
+           4       0.45      0.64      0.53        70
+           5       0.00      0.00      0.00        43
+           6       0.75      0.35      0.48        34
+           7       0.75      0.90      0.82        42
+           8       0.43      0.10      0.16        30
+           9       0.81      0.59      0.68        22
+          10       0.52      0.30      0.38        43
+          11       0.31      0.57      0.40        46
+          12       0.65      0.32      0.43        41
+          13       0.00      0.00      0.00        31
+          14       0.69      0.71      0.70        75
+          15       0.39      0.45      0.41        38
+          16       0.20      0.07      0.11        28
+          17       0.48      0.90      0.63        73
+          18       0.28      0.26      0.27        43
+          19       1.00      0.17      0.29        18
+          20       0.60      0.30      0.40        40
+          21       0.00      0.00      0.00        23
+          22       0.30      0.73      0.43       108
+
+    accuracy                           0.45      1000
+   macro avg       0.45      0.36      0.36      1000
+weighted avg       0.45      0.45      0.40      1000
+
+Genre classification report:
+              precision    recall  f1-score   support
+
+           1       0.56      0.46      0.50        85
+           2       0.46      0.31      0.37       173
+           3       0.65      0.63      0.64        38
+           4       0.76      0.83      0.80       281
+           5       0.00      0.00      0.00        29
+           6       0.61      0.89      0.72       187
+           7       0.47      0.20      0.28        69
+           8       0.50      0.73      0.59       103
+           9       0.56      0.26      0.35        35
+
+    accuracy                           0.61      1000
+   macro avg       0.51      0.48      0.47      1000
+weighted avg       0.58      0.61      0.58      1000
+
+Epoch 4/5
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train:   0\%|          | 0/250 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train loss: 4.0979
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Eval:   0\%|          | 0/63 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Style classification report:
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         1
+           1       0.00      0.00      0.00         3
+           2       0.33      0.15      0.21        39
+           3       0.58      0.38      0.45        40
+           4       0.50      0.26      0.34        23
+           5       0.21      0.08      0.12        38
+           6       0.00      0.00      0.00         1
+           7       0.65      0.90      0.75       315
+           8       0.79      0.36      0.49        42
+           9       0.65      0.32      0.43        41
+          10       0.00      0.00      0.00         3
+          11       0.38      0.21      0.27       103
+          12       0.51      0.63      0.56       207
+          13       0.79      0.66      0.72        68
+          14       0.69      0.75      0.72        73
+          15       0.00      0.00      0.00         3
+
+    accuracy                           0.59      1000
+   macro avg       0.38      0.29      0.32      1000
+weighted avg       0.57      0.59      0.56      1000
+
+Artist classification report:
+              precision    recall  f1-score   support
+
+           0       0.62      0.61      0.62        41
+           1       0.31      0.20      0.24        25
+           2       0.44      0.52      0.48        50
+           3       0.38      0.08      0.14        36
+           4       0.39      0.81      0.53        70
+           5       0.60      0.07      0.12        43
+           6       0.56      0.59      0.57        34
+           7       0.81      0.93      0.87        42
+           8       0.60      0.20      0.30        30
+           9       0.92      0.55      0.69        22
+          10       0.45      0.60      0.51        43
+          11       0.37      0.50      0.42        46
+          12       0.70      0.34      0.46        41
+          13       1.00      0.03      0.06        31
+          14       0.56      0.76      0.65        75
+          15       0.46      0.42      0.44        38
+          16       0.23      0.25      0.24        28
+          17       0.61      0.85      0.71        73
+          18       0.39      0.21      0.27        43
+          19       1.00      0.11      0.20        18
+          20       0.58      0.62      0.60        40
+          21       1.00      0.09      0.16        23
+          22       0.44      0.57      0.50       108
+
+    accuracy                           0.50      1000
+   macro avg       0.58      0.43      0.43      1000
+weighted avg       0.55      0.50      0.47      1000
+
+Genre classification report:
+              precision    recall  f1-score   support
+
+           1       0.67      0.38      0.48        85
+           2       0.44      0.32      0.37       173
+           3       0.72      0.55      0.63        38
+           4       0.65      0.95      0.77       281
+           5       1.00      0.03      0.07        29
+           6       0.72      0.78      0.75       187
+           7       0.48      0.36      0.41        69
+           8       0.51      0.60      0.55       103
+           9       0.73      0.23      0.35        35
+
+    accuracy                           0.61      1000
+   macro avg       0.66      0.47      0.49      1000
+weighted avg       0.62      0.61      0.58      1000
+
+Epoch 5/5
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train:   0\%|          | 0/250 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Train loss: 3.8018
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Eval:   0\%|          | 0/63 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Style classification report:
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         1
+           1       0.00      0.00      0.00         3
+           2       0.47      0.21      0.29        39
+           3       0.71      0.42      0.53        40
+           4       0.53      0.39      0.45        23
+           5       0.25      0.08      0.12        38
+           6       0.00      0.00      0.00         1
+           7       0.73      0.86      0.79       315
+           8       0.56      0.45      0.50        42
+           9       0.58      0.61      0.60        41
+          10       0.00      0.00      0.00         3
+          11       0.45      0.50      0.47       103
+          12       0.59      0.64      0.62       207
+          13       0.73      0.75      0.74        68
+          14       0.75      0.75      0.75        73
+          15       0.00      0.00      0.00         3
+
+    accuracy                           0.64      1000
+   macro avg       0.40      0.35      0.37      1000
+weighted avg       0.62      0.64      0.62      1000
+
+Artist classification report:
+              precision    recall  f1-score   support
+
+           0       0.57      0.66      0.61        41
+           1       0.17      0.04      0.06        25
+           2       0.47      0.54      0.50        50
+           3       0.36      0.11      0.17        36
+           4       0.49      0.71      0.58        70
+           5       0.71      0.12      0.20        43
+           6       0.78      0.53      0.63        34
+           7       0.71      0.98      0.82        42
+           8       0.50      0.13      0.21        30
+           9       0.88      0.68      0.77        22
+          10       0.47      0.63      0.53        43
+          11       0.35      0.59      0.44        46
+          12       0.56      0.46      0.51        41
+          13       0.00      0.00      0.00        31
+          14       0.58      0.77      0.66        75
+          15       0.56      0.47      0.51        38
+          16       0.43      0.11      0.17        28
+          17       0.67      0.82      0.74        73
+          18       0.33      0.30      0.31        43
+          19       1.00      0.11      0.20        18
+          20       0.68      0.47      0.56        40
+          21       1.00      0.04      0.08        23
+          22       0.39      0.70      0.50       108
+
+    accuracy                           0.52      1000
+   macro avg       0.55      0.43      0.43      1000
+weighted avg       0.53      0.52      0.47      1000
+
+Genre classification report:
+              precision    recall  f1-score   support
+
+           1       0.75      0.42      0.54        85
+           2       0.48      0.35      0.40       173
+           3       0.48      0.68      0.57        38
+           4       0.68      0.93      0.79       281
+           5       0.67      0.07      0.12        29
+           6       0.76      0.78      0.77       187
+           7       0.42      0.20      0.27        69
+           8       0.46      0.64      0.54       103
+           9       0.75      0.34      0.47        35
+
+    accuracy                           0.62      1000
+   macro avg       0.61      0.49      0.50      1000
+weighted avg       0.62      0.62      0.60      1000
+
+    \end{Verbatim}
+
+    \subsection{Epoch budget and scaling
+up}\label{epoch-budget-and-scaling-up}
+
+\textbf{\texttt{EPOCHS\ =\ 5}} keeps the notebook \textbf{runnable
+end-to-end} while I develop. \textbf{Validation loss} may not have
+plateaued.
+
+\textbf{If I scale compute:} I would increase \textbf{epochs},
+\textbf{\texttt{MAX\_SAMPLES}}, optionally \textbf{unfreeze} part of
+ResNet-18, add \textbf{stronger augmentations}, or use \textbf{mixed
+precision} on GPU. Each step targets \textbf{higher accuracy/F1} without
+changing the architecture.
+
+    \subsection{Outlier analysis --- qualitative evaluation beyond
+averages}\label{outlier-analysis-qualitative-evaluation-beyond-averages}
+
+High \textbf{per-sample validation loss} (sum of CE over the three
+tasks) flags \textbf{hard examples} for me: possible \textbf{label
+noise}, \textbf{ambiguous} genre/style, or \textbf{underrepresented}
+styles in training.
+
+The next code cell \textbf{ranks} validation images by loss and
+\textbf{plots thumbnails}. I use that to \textbf{check} whether errors
+are \textbf{model failures} or \textbf{metadata / taxonomy}
+
+    \subsection{Reading outlier plots}\label{reading-outlier-plots}
+
+I look for \textbf{atypical} works for an artist, \textbf{borderline}
+style boundaries, \textbf{tiny class support}, or \textbf{CSV merge}
+quirks. Outliers are \textbf{not} necessarily a fourth metric for me;
+they help along with \textbf{precision/recall/F1}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Outliers}
+
+\PY{n+nd}{@torch}\PY{o}{.}\PY{n}{no\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{compute\PYZus{}per\PYZus{}sample\PYZus{}loss}\PY{p}{(}
+    \PY{n}{model}\PY{p}{:} \PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{,}
+    \PY{n}{loader}\PY{p}{:} \PY{n}{DataLoader}\PY{p}{,}
+    \PY{n}{criterion\PYZus{}style}\PY{p}{:} \PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{,}
+    \PY{n}{criterion\PYZus{}artist}\PY{p}{:} \PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{,}
+    \PY{n}{criterion\PYZus{}genre}\PY{p}{:} \PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{,}
+\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{:}
+    \PY{n}{model}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{)}
+    \PY{n}{losses} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{n}{ce\PYZus{}style} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{n}{reduction}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ce\PYZus{}artist} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{n}{reduction}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ce\PYZus{}genre} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{n}{reduction}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{x\PYZus{}seq}\PY{p}{,} \PY{n}{y} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{loader}\PY{p}{,} \PY{n}{desc}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Outlier loss}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{leave}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+        \PY{n}{x\PYZus{}seq} \PY{o}{=} \PY{n}{x\PYZus{}seq}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{DEVICE}\PY{p}{)}
+        \PY{n}{y} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{DEVICE}\PY{p}{)}
+        \PY{n}{y\PYZus{}style}\PY{p}{,} \PY{n}{y\PYZus{}artist}\PY{p}{,} \PY{n}{y\PYZus{}genre} \PY{o}{=} \PY{n}{y}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}
+
+        \PY{n}{logits\PYZus{}style}\PY{p}{,} \PY{n}{logits\PYZus{}artist}\PY{p}{,} \PY{n}{logits\PYZus{}genre} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{x\PYZus{}seq}\PY{p}{)}
+
+        \PY{n}{loss\PYZus{}style} \PY{o}{=} \PY{n}{ce\PYZus{}style}\PY{p}{(}\PY{n}{logits\PYZus{}style}\PY{p}{,} \PY{n}{y\PYZus{}style}\PY{p}{)}
+        \PY{n}{loss\PYZus{}artist} \PY{o}{=} \PY{n}{ce\PYZus{}artist}\PY{p}{(}\PY{n}{logits\PYZus{}artist}\PY{p}{,} \PY{n}{y\PYZus{}artist}\PY{p}{)}
+        \PY{n}{loss\PYZus{}genre} \PY{o}{=} \PY{n}{ce\PYZus{}genre}\PY{p}{(}\PY{n}{logits\PYZus{}genre}\PY{p}{,} \PY{n}{y\PYZus{}genre}\PY{p}{)}
+
+        \PY{n}{loss} \PY{o}{=} \PY{n}{loss\PYZus{}style} \PY{o}{+} \PY{n}{loss\PYZus{}artist} \PY{o}{+} \PY{n}{loss\PYZus{}genre}
+        \PY{n}{losses}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{loss}\PY{o}{.}\PY{n}{detach}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{n}{losses}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{visualize\PYZus{}top\PYZus{}k\PYZus{}outliers}\PY{p}{(}
+    \PY{n}{df\PYZus{}val}\PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,}
+    \PY{n}{losses}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{ndarray}\PY{p}{,}
+    \PY{n}{k}\PY{p}{:} \PY{n+nb}{int} \PY{o}{=} \PY{l+m+mi}{12}\PY{p}{,}
+    \PY{n}{img\PYZus{}root}\PY{p}{:} \PY{n}{Path} \PY{o}{=} \PY{n}{DATA\PYZus{}ROOT}\PY{p}{,}
+\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{k+kc}{None}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Show the top\PYZhy{}k highest\PYZhy{}loss validation images with labels.\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{assert} \PY{n+nb}{len}\PY{p}{(}\PY{n}{df\PYZus{}val}\PY{p}{)} \PY{o}{==} \PY{n+nb}{len}\PY{p}{(}\PY{n}{losses}\PY{p}{)}
+    \PY{n}{indices} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argsort}\PY{p}{(}\PY{n}{losses}\PY{p}{)}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{p}{:}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+
+    \PY{n}{ncols} \PY{o}{=} \PY{l+m+mi}{4}
+    \PY{n}{nrows} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{ceil}\PY{p}{(}\PY{n}{k} \PY{o}{/} \PY{n}{ncols}\PY{p}{)}\PY{p}{)}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{nrows}\PY{p}{,} \PY{n}{ncols}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{4} \PY{o}{*} \PY{n}{ncols}\PY{p}{,} \PY{l+m+mi}{4} \PY{o}{*} \PY{n}{nrows}\PY{p}{)}\PY{p}{)}
+    \PY{n}{axes} \PY{o}{=} \PY{n}{axes}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{ax}\PY{p}{,} \PY{n}{idx} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{axes}\PY{p}{,} \PY{n}{indices}\PY{p}{)}\PY{p}{:}
+        \PY{n}{row} \PY{o}{=} \PY{n}{df\PYZus{}val}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{idx}\PY{p}{]}
+        \PY{n}{img\PYZus{}path} \PY{o}{=} \PY{n}{img\PYZus{}root} \PY{o}{/} \PY{n}{row}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{filepath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n}{image} \PY{o}{=} \PY{n}{Image}\PY{o}{.}\PY{n}{open}\PY{p}{(}\PY{n}{img\PYZus{}path}\PY{p}{)}\PY{o}{.}\PY{n}{convert}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RGB}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{image}\PY{p}{)}
+        \PY{n}{title} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{style=}\PY{l+s+si}{\PYZob{}}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{style}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{artist=}\PY{l+s+si}{\PYZob{}}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{artist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{genre=}\PY{l+s+si}{\PYZob{}}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{genre}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{n}{title}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{8}\PY{p}{)}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{off}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{ax} \PY{o+ow}{in} \PY{n}{axes}\PY{p}{[}\PY{n+nb}{len}\PY{p}{(}\PY{n}{indices}\PY{p}{)}\PY{p}{:}\PY{p}{]}\PY{p}{:}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{off}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Example usage after training:}
+\PY{n}{val\PYZus{}losses} \PY{o}{=} \PY{n}{compute\PYZus{}per\PYZus{}sample\PYZus{}loss}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{val\PYZus{}loader}\PY{p}{,} \PY{n}{criterion\PYZus{}style}\PY{p}{,} \PY{n}{criterion\PYZus{}artist}\PY{p}{,} \PY{n}{criterion\PYZus{}genre}\PY{p}{)}
+\PY{n}{visualize\PYZus{}top\PYZus{}k\PYZus{}outliers}\PY{p}{(}\PY{n}{val\PYZus{}df}\PY{p}{,} \PY{n}{val\PYZus{}losses}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{,} \PY{n}{img\PYZus{}root}\PY{o}{=}\PY{n}{DATA\PYZus{}ROOT}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Outlier loss:   0\%|          | 0/63 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{task1_convolutional_recurrent_files/task1_convolutional_recurrent_22_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Evaluation metrics --- why these, and what to look
+for}\label{evaluation-metrics-why-these-and-what-to-look-for}
+
+I use \textbf{\texttt{classification\_report}} from scikit-learn for
+each task:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.1860}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4186}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3953}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Metric
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Why it is useful
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+What I look for
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Accuracy} & Easy to communicate & \textbf{Misleading} with many
+rare artist classes; still informative for \textbf{genre} if it is
+balanced enough \\
+\textbf{Macro precision / recall / F1} & \textbf{Equal weight per class}
+& Shows \textbf{tail-class} failure (common for \textbf{artist}) \\
+\textbf{Weighted precision / recall / F1} & \textbf{Weighted by support}
+& Closer to ``overall'' behaviour dominated by \textbf{frequent}
+styles/artists \\
+\end{longtable}
+}
+
+\textbf{Typical ordering I expect:} \textbf{genre ≥ style ≥ artist} on
+F1 with this architecture and sampling---\textbf{artist} has
+\textbf{many fine-grained classes} and \textbf{high intra-class visual
+diversity}.
+
+    \subsection{Confusion matrices --- systematic errors vs
+noise}\label{confusion-matrices-systematic-errors-vs-noise}
+
+Heatmaps show \textbf{which classes get confused} with which.
+\textbf{Style:} I look for \textbf{adjacent movements} (related schools)
+as \textbf{off-diagonal blocks}. \textbf{Artist:} I expect
+\textbf{diffuse} confusion when \textbf{many classes} have \textbf{few
+images}. \textbf{Genre:} often \textbf{cleaner} if categories are broad.
+
+\textbf{Strength:} Visual proof of \textbf{structured mistakes} (better
+than one accuracy). \textbf{Weakness:} \textbf{Large class counts} make
+\textbf{artist} matrices \textbf{hard to read}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Confusion matrices}
+
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{confusion\PYZus{}matrix}
+
+\PY{n}{results} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{val\PYZus{}loader}\PY{p}{)}
+
+\PY{n}{y\PYZus{}true} \PY{o}{=} \PY{n}{results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{n}{y\PYZus{}style}\PY{p}{,} \PY{n}{y\PYZus{}artist}\PY{p}{,} \PY{n}{y\PYZus{}genre} \PY{o}{=} \PY{n}{y\PYZus{}true}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}true}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}
+
+\PY{n}{cm\PYZus{}style} \PY{o}{=} \PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}style}\PY{p}{,} \PY{n}{results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred\PYZus{}style}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{cm\PYZus{}artist} \PY{o}{=} \PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}artist}\PY{p}{,} \PY{n}{results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred\PYZus{}artist}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{cm\PYZus{}genre} \PY{o}{=} \PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}genre}\PY{p}{,} \PY{n}{results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred\PYZus{}genre}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{18}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{cm\PYZus{}style}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Blues}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cbar}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Style confusion matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{True}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{cm\PYZus{}artist}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Greens}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cbar}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Artist confusion matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{True}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{cm\PYZus{}genre}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Reds}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cbar}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Genre confusion matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predicted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{True}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final style accuracy:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{p}{(}\PY{n}{y\PYZus{}style} \PY{o}{==} \PY{n}{results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred\PYZus{}style}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final artist accuracy:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{p}{(}\PY{n}{y\PYZus{}artist} \PY{o}{==} \PY{n}{results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred\PYZus{}artist}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final genre accuracy:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{p}{(}\PY{n}{y\PYZus{}genre} \PY{o}{==} \PY{n}{results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}pred\PYZus{}genre}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Eval:   0\%|          | 0/63 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Style classification report:
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         1
+           1       0.00      0.00      0.00         3
+           2       0.47      0.21      0.29        39
+           3       0.71      0.42      0.53        40
+           4       0.53      0.39      0.45        23
+           5       0.25      0.08      0.12        38
+           6       0.00      0.00      0.00         1
+           7       0.73      0.86      0.79       315
+           8       0.56      0.45      0.50        42
+           9       0.58      0.61      0.60        41
+          10       0.00      0.00      0.00         3
+          11       0.45      0.50      0.47       103
+          12       0.59      0.64      0.62       207
+          13       0.73      0.75      0.74        68
+          14       0.75      0.75      0.75        73
+          15       0.00      0.00      0.00         3
+
+    accuracy                           0.64      1000
+   macro avg       0.40      0.35      0.37      1000
+weighted avg       0.62      0.64      0.62      1000
+
+Artist classification report:
+              precision    recall  f1-score   support
+
+           0       0.57      0.66      0.61        41
+           1       0.17      0.04      0.06        25
+           2       0.47      0.54      0.50        50
+           3       0.36      0.11      0.17        36
+           4       0.49      0.71      0.58        70
+           5       0.71      0.12      0.20        43
+           6       0.78      0.53      0.63        34
+           7       0.71      0.98      0.82        42
+           8       0.50      0.13      0.21        30
+           9       0.88      0.68      0.77        22
+          10       0.47      0.63      0.53        43
+          11       0.35      0.59      0.44        46
+          12       0.56      0.46      0.51        41
+          13       0.00      0.00      0.00        31
+          14       0.58      0.77      0.66        75
+          15       0.56      0.47      0.51        38
+          16       0.43      0.11      0.17        28
+          17       0.67      0.82      0.74        73
+          18       0.33      0.30      0.31        43
+          19       1.00      0.11      0.20        18
+          20       0.68      0.47      0.56        40
+          21       1.00      0.04      0.08        23
+          22       0.39      0.70      0.50       108
+
+    accuracy                           0.52      1000
+   macro avg       0.55      0.43      0.43      1000
+weighted avg       0.53      0.52      0.47      1000
+
+Genre classification report:
+              precision    recall  f1-score   support
+
+           1       0.75      0.42      0.54        85
+           2       0.48      0.35      0.40       173
+           3       0.48      0.68      0.57        38
+           4       0.68      0.93      0.79       281
+           5       0.67      0.07      0.12        29
+           6       0.76      0.78      0.77       187
+           7       0.42      0.20      0.27        69
+           8       0.46      0.64      0.54       103
+           9       0.75      0.34      0.47        35
+
+    accuracy                           0.62      1000
+   macro avg       0.61      0.49      0.50      1000
+weighted avg       0.62      0.62      0.60      1000
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{task1_convolutional_recurrent_files/task1_convolutional_recurrent_25_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Final style accuracy: 0.641
+Final artist accuracy: 0.515
+Final genre accuracy: 0.623
+    \end{Verbatim}
+
+    \subsection{GSoC submission --- Conclusion (Task
+1)}\label{gsoc-submission-conclusion-task-1}
+
+\textbf{What I implemented:} Multi-task \textbf{CNN (ResNet-18 strips) +
+bidirectional GRU + three heads} for style, artist, and genre.
+
+\textbf{Hardware-driven choices:} \textbf{Frozen} small backbone,
+\textbf{5k sample cap}, \textbf{5 epochs}, \textbf{modest batch size},
+and \textbf{notebook-safe DataLoader} settings so the pipeline runs on
+\textbf{typical student hardware} like mine.
+
+\textbf{Strengths:} Clear \textbf{inductive bias} (spatial strips +
+recurrence), \textbf{efficient training}, \textbf{interpretable}
+per-task reports and confusion matrices, \textbf{outlier} inspection for
+qualitative error analysis.
+
+\textbf{Weaknesses:} \textbf{Generic} ImageNet features, \textbf{no}
+art-specific pretraining, \textbf{limited} capacity for
+\textbf{fine-grained artist ID}, \textbf{horizontal-biased} spatial
+model.
+
+\textbf{Metrics takeaway:} I lean on \textbf{macro-F1} to discuss
+\textbf{rare classes}; I compare \textbf{three tasks} to show
+\textbf{which label type} the representation supports best; I use
+\textbf{confusion matrices and outliers} to argue \textbf{what I would
+improve next} (data, unfreezing, architecture)---not only to report one
+accuracy.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
