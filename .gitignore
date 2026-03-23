@@ -1,0 +1,19 @@
+# Dataset files — ignore all of data/ except the extract helper
+data/*
+!data/task2_data/
+data/task2_data/*
+!data/task2_data/extract.py
+# Python
+__pycache__/
+*.py[cod]
+.Python
+.venv/
+venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
